@@ -5,7 +5,9 @@
 
 from collections import Counter
 import enum
-import re 
+import re
+
+from pytest import skip 
 def most_repeated_word(text: str):
     if not text:
         return ""
@@ -404,19 +406,168 @@ import numpy as np
 def ispalindrome(x:int):
 
     """check if number is palindrome"""
-    #the way to check is to get the number
-    #start with small numbers up to 999
-    third_place=np.floor(x/100)
-    second_place=np.floor((x-100*third_place)/10)
-    # print(second_place)
-    first_place=x-third_place*100-10*second_place
+    #let's convert it to a string
+    x_str=str(x)
+
+
+    return x_str==x_str[::-1]
+
+ispalindrome(1333)
+
+# %%
+
+
+
+#practice test 
+
+def longest_consecutive(nums: list[int]):
+    """a function to find the longest consecutive integers in 
+    a list."""
+
+    #first, test if the list is empty
+    if not nums:
+        raise ValueError("nums can't be empty!")
     
+    #Initial a list where the elements will be saved
+    elements_positive=[]
 
-    if third_place == first_place:
-        return True
+    #loop over the list and check if any number is consecutive.
+
+    #first, find the smallest number
+    minn=min(nums[0:])
+    elements_positive.append(minn)
+    for i in range(len(nums)):
+        for idx, i in enumerate(nums):
+            if i - elements_positive[-1]==1: #looking at the last element of 
+                elements_positive.append(i) #this only adds the next number
+
+    elements_negative=[0]
+    # for i in range(len(nums[0:])):
+    #     for idx, i in enumerate(np.abs(nums[0:])):
+    #         if i - elements_negative[-1]==1: #looking at the last element of 
+    #             elements_negative.append(i) #this only adds the next number
+
+    elements=-1*elements_negative+elements_positive
+    # print(elements_positive)
+    return elements
+
+# longest_consecutive(nums=[10, 100, 11, 12, 101])
+longest_consecutive([10, 11, 12, 5, 6])
+
+
+# %%
+
+#OR chatGPT's code
+
+def longest_con(nums: list[int]):
+    if not nums:
+        return 0
+    
+    num_set=set(nums)
+    max_length=0
+
+    for num in num_set:
+        if num-1 not in num_set:
+            current = num 
+            length=1
+
+            while current + 1 in num_set:
+                current +=1
+                length+=1
+
+            max_length=max(max_length,length)
+    
+    return max_length
+
+print(longest_con([100, 4, 200, 1, 3, 2, 5,10,11,12,13,14,15,16,17,18]))  # Output: 5
+
+# %%
+
+def merge_intervals(data):
+    """a function to merge overlapping intervals 
+    for example [[1,4],[2,7]] becomes [[1,7]]"""
+
+    if not data:
+        raise ValueError("NO EMPTY STUFF")
+    
+    sorted_intervals=sorted(data)
+    #now let's look at the beginning at the end of every interval
+    #and the beginning of the next one
+    # print(sorted_intervals)
+
+    #new approach,
+    # start with the first element then keep looking until next value is bigger 
+    # than current maximum
+
+    intervals=[]
+    for idx,i in enumerate(sorted_intervals[:-1]):
+        # print(idx,i)
+        # new_interval=[]
+        #let's just find the first maximum
+        if sorted_intervals[idx+1][0] < sorted_intervals[idx][1]:
+            new_interval=([sorted_intervals[0][0],sorted_intervals[idx+1][1]])
+            # break
+    intervals.append(new_interval)
+
+    non_common=[]
+    
+    for idx_j,j in enumerate(sorted_intervals):
+        if sorted_intervals[idx_j][1] not in intervals:
+            non_common.append(sorted_intervals[idx_j])
+
+    print(non_common)
+
+            
+    return sorted(intervals)
+
+merge_intervals([[1, 3],[2, 6],[8, 10], [15, 18]]) #[8, 10], [15, 18], 
+
+
+# %%
+n=15
+for j in range(n):
+    i=j+1
+    if i % 3==0 and i % 5 ==0:
+        print("FizzBuzz")
+    elif i%3 ==0 and i % 5 != 0:
+        print('Fizz')
+    elif i % 5 ==0 and i % 3 !=0:
+        print('Buzz')
     else:
-        return "Not Palindrome"
+        print(i)
 
-ispalindrome(333)
+# %%
 
+def minimizeDecompressionSteps(ids):
+    # Write your code here
+    #so, the concept is new to me, but it sounds as if dividing the biggest number first
+    #might be the best option, as it may reduce to other numbers in the list, then 
+    #dividing these similar elements. To me, sounds like minimizing the numbers of steps.
+    
+    #Let's check ids is valid
+    if not ids:
+        raise ValueError("ids can not be empty! Please provide a valid number")
+        
+    #get the index of maximum value
+    maxx=ids.index(max(ids))
+    count=0
+    print(maxx,ids[maxx])
+    for element in ids:
+        # new_list.append(element/maxx)
+        # if element == max(ids):
+        #     element= element/2
+    #     # new_list.append(element)
+    #     print(element)
+        while ids[maxx] % 2 == 0: #this cheecks if the number is even
+            ids[maxx] = ids[maxx]/2 #but wait, we need to check if the number is repeated
+            count +=1
+            for element in ids:
+                if int(ids[maxx])==int(element):
+                    ids[ids.index(element)]=ids[ids.index(element)]/2
+                        
+    #     ids[maxx]=element
+    print(ids, count)
+    return ids
+    
+minimizeDecompressionSteps([6,2,4,6,8,6,12])
 # %%
