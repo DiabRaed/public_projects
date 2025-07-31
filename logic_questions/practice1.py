@@ -232,7 +232,7 @@ def compute_accuray(y_true:list[int], y_pred:list[int]):
 
 compute_accuray(y_true=[0.113,1,2,3,4],y_pred=[0.2113,1,2,3,4])
 
-compute_accuray(y_true=[2],y_pred=["4"])
+# compute_accuray(y_true=[2],y_pred=["4"])
 
 # %%
 
@@ -406,6 +406,8 @@ import numpy as np
 def ispalindrome(x:int):
 
     """check if number is palindrome"""
+    # if x is not int:
+    #     raise ValueError("STOP BEING STUPID")
     #let's convert it to a string
     x_str=str(x)
 
