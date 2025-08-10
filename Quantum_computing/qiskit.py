@@ -228,3 +228,26 @@ plot_histogram(counts)
 # plt.show()
 
 # %%
+from qiskit import QuantumCircuit
+import numpy as np
+
+qc = QuantumCircuit(1,1)
+qc.rx(np.pi/3, 0)  # rotate around X axis
+qc.measure_all()
+qc.draw('mpl')
+
+# %%
+qc = QuantumCircuit(2,2)
+qc.swap(0,1)
+qc.measure_all()
+
+# %%
+from qiskit.quantum_info import Statevector
+import qiskit
+qc = QuantumCircuit(1)
+qc.h(0)
+sv = Statevector.from_instruction(qc)
+print(sv)
+qiskit.visualization.plot_bloch_multivector(sv)
+
+# %%
